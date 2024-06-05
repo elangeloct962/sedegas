@@ -1,0 +1,25 @@
+//Sobreescritura de urls
+add_action( 'init',  function() {
+    add_rewrite_rule( 'nombre/([a-zA-Z ]+)[/]?$', 'index.php?nombre=$matches[1]', 'top' );
+} );
+
+
+//Agregar parámetros
+add_filter( 'query_vars', function( $query_vars ) {
+	$query_vars[] = 'nombre';
+    return $query_vars;
+} );
+
+//Carga archivo de plantilla de acuerdo al parámetro
+add_action( 'template_include', function( $template ) {
+    if ( get_query_var( 'nombre' ) ) {
+		return get_stylesheet_directory() . '/home-nombre.php';
+    }
+	return $template;
+} );
+
+
+<div>
+	<?php $nombre = get_query_var( 'nombre' );?>
+	<h3>Hola <?php echo $nombre ?></h3>
+</div>
