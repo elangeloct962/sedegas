@@ -1,0 +1,33 @@
+//Sobreescritura de urls
+add_action( 'init',  function() {
+    add_rewrite_rule( 'nombre/([a-zA-Z ]+)[/]?$', 'index.php?nombre=$matches[1]', 'top' );
+} );
+
+
+//Agregar parámetros
+add_filter( 'query_vars', function( $query_vars ) {
+	$query_vars[] = 'nombre';
+    return $query_vars;
+} );
+
+//Carga archivo de plantilla de acuerdo al parámetro
+add_action( 'template_include', function( $template ) {
+    if ( get_query_var( 'nombre' ) ) {
+		return get_stylesheet_directory() . '/home-nombre.php';
+    }
+	return $template;
+} );
+
+
+<div>
+	<?php $nombre = get_query_var( 'nombre' );?>
+	<h3>Hola <?php echo $nombre ?></h3>
+</div>
+
+
+	//SELECT `idregistro`, `suscriptor`, `cedula`, 
+	//`direccionservicio`, `sector`, `telefonoservicio`, 
+	//`tipo`, `numcontrato`, `fecha_inscripcion`, `numero`, 
+	//`p20212022`, `p2023t1`, `p2023t2`, `p2023t3`, `p2023t4`, 
+	//`p2024t1`, `p2024t2`, `codigoContrato`, `data_create`, 
+	//`p2024t3`, `p2024t4` FROM `sg_maestro` WHERE 1
